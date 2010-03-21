@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Manage Symfony with Git</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Manage Symfony with Git</h1>
+    <p id="date">
+        Published 1st February 2008
+    </p>
+    <p>Using <a class="reference external" href="http://git.or.cz/">Git</a> to manage <a class="reference external" href="http://subversion.tigris.org/">Subversion</a> repositories has become very popular the
+past days - especially in the <a class="reference external" href="http://www.djangoproject.com/">Django</a> community, where Brian Rosner brought
+this up in a nice <a class="reference external" href="http://oebfare.com/blog/2008/jan/23/using-git-django-screencast/">video tutorial</a>.</p>
+<p>The biggest advantage of using Git is that you can switch between various
+branches very easily and nearly instantly - even offline. However, Git's SVN
+support isn't perfect, so there are also some drawbacks.</p>
+<p>The method described here is perfect for testing your project with an older
+or even a newer version of <a class="reference external" href="http://www.symfony-project.org/">Symfony</a>.</p>
+<div class="section" id="installation">
+<h2>Installation</h2>
+<p>If you installed Git over <a class="reference external" href="http://www.macports.org/">MacPorts</a>, make sure you enabled SVN support:</p>
+<div class="highlight"><pre>port -v install git-core +svn
+</pre></div>
+</div>
+<div class="section" id="clone-the-symfony-repository">
+<h2>Clone the Symfony repository</h2>
+<p>The following command will clone the <strong>whole</strong> symfony SVN repository with
+all its revisions (over 7000), tags and branches in a folder called
+<em>symfony.git</em>. This takes some time, so better do something else. You can,
+however, always cancel and resume the checkout at a later time.</p>
+<div class="highlight"><pre>git svn clone -s http://svn.symfony-project.com/ symfony.git
+</pre></div>
+<p>Since all the stuff you just downloaded is taking up quite some space on your
+hard drive, you might want to run <em>git gc</em> to cleanup unnecessary files and
+optimize the repository (also takes its time but size went from over 200MB to
+just 50MB for me).</p>
+<div class="highlight"><pre>git gc
+</pre></div>
+<p>In Git, HEAD is always set to the branch where the last commit was made, this
+could lead to problems. Set it to the 1.0 branch for now:</p>
+<div class="highlight"><pre>git reset --hard 1.0
+</pre></div>
+</div>
+<div class="section" id="externals">
+<h2>Externals</h2>
+<p>Of course, the SVN implementation in Git isn't perfect. It mostly shows when
+using <em>svn:externals</em> which Git doesn't support yet and therefore
+repositories must be fetched manually. In Symfony's case this is <em>pake</em> and
+<em>lime</em>.</p>
+<div class="highlight"><pre>git svn clone http://svn.symfony-project.com/tools/pake/tags/RELEASE_1_1_5/lib/pake lib/vendor/pake
+git svn clone http://svn.symfony-project.com/tools/lime/tags/RELEASE_1_0_4/lib lib/vendor/lime
+</pre></div>
+</div>
+<div class="section" id="finishing-up">
+<h2>Finishing up</h2>
+<p>Create a symlink that links to the Symfony command in our Git repository:</p>
+<div class="highlight"><pre>sudo ln -s /Users/arthur/Webdev/symfony.git/data/bin/symfony/usr/bin/symfony_dev
+</pre></div>
+<p>and checkout the latest stable version of Symfony:</p>
+<div class="highlight"><pre>git checkout tags/RELEASE_1_0_11
+</pre></div>
+<p>A few branches, like <em>dwhittle</em>, might have a slightly different directory
+structure. In this case, just adjust your symlink and eventually check out
+pake and/or lime again - most Symfony branches and tags do have the same
+layout though.</p>
+<p>Remember to run <em>git svn rebase</em> (similar to <em>svn update</em>) once in a while.</p>
+<div class="highlight"><pre>git svn rebase
+</pre></div>
+</div>
+
+    
+</body>
+</html>

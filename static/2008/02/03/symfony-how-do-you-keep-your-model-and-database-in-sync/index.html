@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Symfony: How Do You Keep Your Model and Database in Sync?</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Symfony: How Do You Keep Your Model and Database in Sync?</h1>
+    <p id="date">
+        Published 3rd February 2008
+    </p>
+    <p>Symfony has been around for quite some time now and most developers have
+their preferred way of doing things - time to ask a question that has been
+floating around for a very long time:</p>
+<p><strong>How do you keep your model and database in sync?</strong></p>
+<p><strong>A)</strong> You build your database in some other tools (e.g. phpMyAdmin) and run
+<em>propel-build-schema</em> followed by <em>propel-build-model</em>.</p>
+<p><strong>B)</strong> You write a schema.yml/xml file and run <em>propel-build-all</em> to generate
+the model, create and insert the sql.</p>
+<p>Please state your opinion (or maybe a even better way) in the comments below.</p>
+
+    
+</body>
+</html>

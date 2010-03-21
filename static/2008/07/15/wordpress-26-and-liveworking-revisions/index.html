@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Wordpress 2.6 and live/working revisions</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Wordpress 2.6 and live/working revisions</h1>
+    <p id="date">
+        Published 15th July 2008
+    </p>
+    <p>Today <a href="http://wordpress.org/development/2008/07/wordpress-26-tyner/">Wordpress 2.6 was released</a>. 
+In my opinion, the most useful addition is the revision system which uses an 
+extended version of the <a href="http://pear.php.net/package/Text_Diff">PEAR Text_Diff package</a>
+and enables a <a href="http://trac.edgewall.org/">Trac</a>-like view between 
+post revisions.</p>
+
+<p>Additionally the autosave function saves the content in its own revision
+every 60 seconds, even when a post was already published. This makes it
+possible to have a simple live/working revision system for published posts.</p>
+
+<p>Prior to 2.6 the autosave function wasn't enabled when editing an
+already published post, meaning that you only had a live revision of
+your post, and needed to edit the content in an external editor to save a
+draft of it.</p>
+
+<p>With Wordpress 2.6 you can now use the autosave feature to have a working
+revision of the post in your Wordpress backend. A notification shows you
+if there's a newer revision of the post available.</p>
+    
+</body>
+</html>

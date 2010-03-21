@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Update on GnuPG for Mail.app in Leopard</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Update on GnuPG for Mail.app in Leopard</h1>
+    <p id="date">
+        Published 28th January 2009
+    </p>
+    <p>Quite a few things happened since I wrote the <a href="http://arthurkoziel.com/2008/06/10/how-to-gnupg-for-mailapp-in-leopard/">GnuPG for Mail.app in Leopard how to</a>, so I thought it would be time for a little update:</p>
+<ul>
+<li><a href="http://www.sente.ch/software/GPGMail/English.lproj/GPGMail.html">GPGMail 1.2.0</a> was released in late December and is now stable for 
+   Mac OS X Leopard. </li>
+<li><a href="http://macgpg2.wiki.sourceforge.net/">MacGPG2</a> includes GnuPG 2 as opposed to 
+   <a href="http://macgpg.wiki.sourceforge.net/">MacGPG</a> which includes version 1.</li>
+<li><a href="http://sourceforge.net/project/showfiles.php?group_id=248469&amp;package_id=304467">Pinentry-mac</a>, the native pinentry program for Mac OS X, is 
+   now available as a separate download.</li>
+</ul>
+<p><img alt="Pinentry-mac dialog" src="http://media.arthurkoziel.com/img/pinentry_mac_2009-01-28.png" /></p>
+<p>If you want to install GPGMail but don't have <a href="http://gnupg.org/">GnuPG</a> 
+installed, just pick up MacGPG2 and everything should work fine. <br>
+If you already have GnuPG installed and don't want to have a second version on your system, 
+just install Pinentry-mac and specify the path to the application in 
+<code>~/.gnupg/gpg-agent.conf</code>:</p>
+<div class="highlight"><pre><span class="n">pinentry</span><span class="o">-</span><span class="n">program</span> <span class="sr">/usr/</span><span class="nb">local</span><span class="sr">/libexec/</span><span class="n">pinentry</span><span class="o">-</span><span class="n">mac</span><span class="o">.</span><span class="n">app</span><span class="sr">/Contents/</span><span class="n">MacOS</span><span class="o">/</span><span class="n">pinentry</span><span class="o">-</span><span class="n">mac</span>
+</pre></div>
+
+
+<p>If the password dialog is annoying you, check out this guide on <a href="http://cactuswax.net/articles/gpg-agent-with-macports-on-os-x.txt">how to install gpg-agent with MacPorts on OS X</a>.</p>
+    
+</body>
+</html>

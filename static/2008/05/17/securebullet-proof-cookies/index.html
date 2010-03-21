@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Secure/bullet proof cookies</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Secure/bullet proof cookies</h1>
+    <p id="date">
+        Published 17th May 2008
+    </p>
+    <p>There seems to be a <a href="http://blog.fourspaces.com/2008/05/14/bullet-proof-cookies-why-bother/">discussion</a> about <a href="http://www.codeproject.com/KB/aspnet/BulletProofCookies.aspx">bullet proof cookies</a> lately and I'm quite surprised that most web developers haven't read the excellent "<a href="http://www.cse.msu.edu/~alexliu/publications/Cookie/cookie.pdf">A Secure Cookie Protocol</a>" research paper from Alex X. Liu.</p>
+
+<p>Here's a short summary of what services a bullet proof cookie should provide:</p>
+<ul>
+	<li><strong>Authentication</strong>
+    Verify that the client has been authenticated within a certain time period.</li>
+	<li>
+    	<strong>Confidentiality</strong>
+        <ul>
+    	    <li>
+    	        <strong>Low-level</strong>
+                Prevent any parties except the user and the server from reading the cookie data.
+            </li>
+    	    <li>
+    	        <strong>High-level</strong>
+                Prevent any parties except the server from reading the cookie data.
+            </li>
+        </ul>
+    </li>
+    <li><strong>Integrity</strong>
+    The server should be able to detect if a cookie has been modified.</li>
+    <li><strong>Anti-Replay</strong>
+    Stolen cookies should be detected as invalid.</li>
+</ul>
+
+<h3>Confidentiality</h3>
+<p>In my opinion, high-level confidentiality is unnecessary. I think Marcus R. Breese describes this best <a href="http://blog.fourspaces.com/2008/05/14/bullet-proof-cookies-why-bother/">in his blog</a>:</p>
+
+<blockquote>"Specifically, my rule of thumb is that if you don’t want a client to know
+the data, don't send it to them."</blockquote>
+
+<p>I totally agree with him and further think that cookies should be used for
+authentication only, and that the data should be stored in the database.</p>
+
+<h3>Example: Wordpress</h3>
+<p>Wordpress 2.5 introduced a similar structure for its cookies as the one proposed in the research paper. In Wordpress 2.5 cookies have the following structure:</p>
+
+<div class="highlight">
+<pre>user name|expiration time|HMAC(user name|expiration time, k)
+where k=HMAC(user name|expiration time, sk)
+and sk=secret server key</pre>
+</div>
+
+<p>Therefore a normal Wordpress cookie looks like this:</p>
+
+<div class="highlight">
+<pre>admin|1212093864|82436be3x303xaddd6fd31db338770a6</pre>
+</div>
+
+<p>There are two points which are different from the originally proposed cookie protocol from Alex X. Liu.</p>
+
+<p>The first one is that there's no data attached to this cookie - it's only used to authenticate the user. The second one is that there's no SSL session key attached.</p>
+
+<p>Removing the SSL session key was not a good (vulnerable to replay attacks) but necessary choice since most Wordpress installations run on non-SSL hosts.</p>
+    
+</body>
+</html>

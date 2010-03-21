@@ -1,0 +1,14 @@
+application: arthur-k
+version: 1
+runtime: python
+api_version: 1
+
+default_expiration: "7d"
+
+handlers:
+- url: (.*)/
+  static_files: static\1/index.html
+  upload: static/index.html
+- url: /
+  static_dir: static
+

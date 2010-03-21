@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Git Configuration</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Git Configuration</h1>
+    <p id="date">
+        Published 2nd May 2008
+    </p>
+    <p>Here are some useful configuration options for <a href="http://git.or.cz/">Git</a>. Some of them, like the Bash completion, are OS X specific but should also work if you adjust the paths according to your system of choice.</p>
+
+<p>Install with <a href="http://www.macports.org/">MacPorts</a>:</p>
+
+<div class="highlight"><pre>
+sudo port install git-core +svn +bash_completion
+</pre></div>
+
+<p>Bash completion:</p>
+<div class="highlight"><pre>
+cp /opt/local/etc/bash_completion.d/git ~/.git-bash-completion.sh
+<span class="nb">echo</span> <span class="s2">&quot;[ -f ~/.git-bash-completion.sh ] &amp;&amp; . ~/.git-bash-completion.sh&quot;</span> >> ~/.bash_profile
+. ~/.bash_profile
+</pre></div>
+
+<p>Global ignore file:</p>
+<div class="highlight"><pre>
+<span class="nb">echo</span> <span class="s2">&quot;.DS_Store&quot;</span> >> ~/.gitignore
+git config --global core.excludesfile ~/.gitignore
+</pre></div>
+
+<p>SVN-like shortcuts for often used commands:</p>
+<div class="highlight"><pre>
+git config --global alias.st status
+git config --global alias.ci commit
+git config --global alias.co checkout
+git config --global alias.br branch
+</pre></div>
+
+<p>Information about the author/commiter:</p>
+<div class="highlight"><pre>
+git config --global user.name <span class="s2">&quot;Your Name Comes Here&quot;</span>
+git config --global user.email you@yourdomain.example.com
+</pre></div>
+
+<p>Colorized output:</p>
+<div class="highlight"><pre>
+git config --global color.branch auto
+git config --global color.diff auto
+git config --global color.interactive auto
+git config --global color.status auto
+</pre></div>
+
+<p>TextMate as the default editor:</p>
+<div class="highlight"><pre>
+git config --global core.editor <span class="s2">&quot;mate -w&quot;</span>
+</pre></div>
+
+<p>Opendiff (FileMerge) to resolve merge conflicts:</p>
+<div class="highlight"><pre>
+git config --global merge.tool opendiff
+</pre></div>
+
+<p>Change the font in gitk: Open <em>~/.gitk</em> and add:</p>
+<div class="highlight"><pre>
+set mainfont {Monaco 12}
+set textfont {Monaco 12}
+set uifont {Monaco 12}
+</pre></div>
+    
+</body>
+</html>

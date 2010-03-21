@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Passing MEDIA_URL in Django's 500 error view</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Passing MEDIA_URL in Django's 500 error view</h1>
+    <p id="date">
+        Published 15th January 2009
+    </p>
+    <p>The default HTTP 500 error view in Django doesn't pass the RequestContext to
+templates and thus variables like MEDIA_URL will not be available. 
+If, for example, your error 500 template extends your site's base template, 
+the URI to the CSS style sheets won't be right.</p>
+<p>Django doesn't include the RequestContext per default since in case of an HTTP
+500 error it's better to 
+pass less variables to lessen the chance of additional errors.
+However, changing the default error 500 view in Django to pass the 
+MEDIA_URL in the context is easy. </p>
+<h3>Modifying the default handler</h3>
+<p>We first need to write a new view which will replace the default one. The
+following is identical to the default view but with the MEDIA_URL added
+to the context:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">http</span>
+<span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">Context</span><span class="p">,</span> <span class="n">loader</span>
+
+<span class="k">def</span> <span class="nf">server_error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&#39;500.html&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    500 error handler.</span>
+
+<span class="sd">    Templates: `500.html`</span>
+<span class="sd">    Context:</span>
+<span class="sd">        MEDIA_URL</span>
+<span class="sd">            Path of static media (e.g. &quot;media.example.org&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span> <span class="c"># You need to create a 500.html template.</span>
+    <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="n">HttpResponseServerError</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">Context</span><span class="p">({</span>
+        <span class="s">&#39;MEDIA_URL&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_URL</span>
+    <span class="p">})))</span>
+</pre></div>
+
+
+<p>The best place for this view is the <em>views.py</em> file in the project's root
+directory.</p>
+<p>To tell Django to use our view for the HTTP 500 error rather than 
+the default one, we need to set the <em>handler500</em> variable in the <em>urls.py</em>
+file to point to the new view:</p>
+<div class="highlight"><pre><span class="n">handler500</span> <span class="o">=</span> <span class="s">&#39;projectname.views.server_error&#39;</span>
+</pre></div>
+
+
+<p>And that's basically it, we've replaced the default error 500 view with our
+own one that passes the MEDIA_URL in the context. </p>
+<p>To see the error 500 page in action, we just need to create a url pattern
+for it:</p>
+<div class="highlight"><pre><span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+    <span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s">r&#39;^500/$&#39;</span><span class="p">,</span> <span class="s">&#39;projectname.views.server_error&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+    
+</body>
+</html>

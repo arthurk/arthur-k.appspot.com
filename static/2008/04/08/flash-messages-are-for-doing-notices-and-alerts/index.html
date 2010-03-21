@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Flash messages are for notices and alerts</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Flash messages are for notices and alerts</h1>
+    <p id="date">
+        Published 8th April 2008
+    </p>
+    <p>Ever since <a href="http://www.rubyonrails.org/">Ruby on Rails</a> introduced flash messages, it has become a widely popular feature which got ported to various other frameworks such as <a href="http://www.symfony-project.org/book/1_0/06-Inside-the-Controller-Layer#Flash%20Attributes">Symfony</a> and is also available as a custom <a href="http://www.djangosnippets.org/tags/flash/">middleware for Django</a>.</p>
+
+<p>The <a href="http://api.rubyonrails.org/classes/ActionController/Flash.html">RoR API documentation describes a flash</a> as a:</p>
+
+<blockquote>"… way to pass temporary objects between actions. Anything you place in the flash will be exposed to the very next action and then cleared out. This is a great way of doing notices and alerts …"</blockquote>
+
+<p>However, many developers tend to use it for more than just <em>"doing notices and alerts"</em>, like passing  critical variables. This might not be a functional idea in the day and age of Tabbed Browsing since request variables like <strong>flash attributes are set browser-wide</strong>, each new tab on the same controller causes the flash value to be overwritten.</p>
+
+<p>Meaning that if you have 5 tabs opened and each tab points to the same page (but has different request variables) the same flash attribute gets overwritten multiple times. <strong>The flash value from the most recent opened tab is used for all 5 tabs</strong>. If the next action of your application relies on that specific flash attribute, it might produce some unexpected results.</p>
+
+<h3>Example: A Blog</h3>
+<p>Think of a simple blog which shows a listing of various entries on the frontpage. With a click on an entry, it simply gets shown with a comment form. The <em>entry id</em> for the comment form is passed via a flash rather than a hidden field.</p>
+
+<p>If the user opens up multiple blog entries from the frontpage in new tabs, each tab sets the <em>entry id</em> flash again. When the first tab gets opened, the flash attribute has the value of the last opened entry - a written comment would be associated with the last opened entry rather than the first opened entry.</p>
+
+<p><strong>Conclusion:</strong> Sticking to hidden fields and validating it's value properly might (still) be the best idea.</p>
+    
+</body>
+</html>

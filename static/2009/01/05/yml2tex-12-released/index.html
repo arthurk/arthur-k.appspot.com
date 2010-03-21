@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>yml2tex 1.2 released</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">yml2tex 1.2 released</h1>
+    <p id="date">
+        Published 5th January 2009
+    </p>
+    <p>yml2tex is a simple Python script which generates LaTeX code for <a href="http://latex-beamer.sourceforge.net/">LaTeX Beamer</a> presentations out of YAML files. </p>
+<p>If you prefer creating presentations with the <a href="http://latex-beamer.sourceforge.net/">LaTeX Beamer class</a> but have a hard time remembering LaTeX syntax (like me) then this project is for you.</p>
+<p><img alt="presentation" src="http://media.arthurkoziel.com/img/yml2tex_pres.jpg" /></p>
+<p>See the <a href="http://code.google.com/p/yml2tex/">project page at Google Code</a> for more information about yml2tex or the <a href="http://github.com/arthurk/yml2tex/tree/1.2/CHANGELOG">CHANGELOG</a> file in the Git repository for a full list of changes. The most important ones are:</p>
+<h3>Better Syntax</h3>
+<p>Previous versions required dashes before each section, subsection or frame due to the fact that <a href="http://pyyaml.org/">PyYAML</a> maps keys to Python dictionaries (correct according to the YAML spec) which don't have an element order—the presentation would be a mess as everything would be mixed up. However, if you put a dash before each line the key is mapped as a Python list and therefore has an order. </p>
+<p>Version 1.2 now comes with a custom Composer for PyYAML which eliminates the need for dashes by mapping keys to tuples with two elements (pairs) instead of dictionaries.</p>
+<p>So, instead of writing:</p>
+<div class="highlight"><pre><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Introduction</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Features</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">General</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Easy &amp; fast to generate simple presentations</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Adds a nice default style to the document</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Generates a TOC out of sections/subsections</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Separates content from presentation</span>
+</pre></div>
+
+
+<p>You can now write:</p>
+<div class="highlight"><pre><span class="l-Scalar-Plain">Introduction</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">Features</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">General</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Easy &amp; fast to generate simple presentations</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Adds a nice default style to the document</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Generates a TOC out of sections/subsections</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Separates content from presentation</span>
+</pre></div>
+
+
+<h3>Metadata</h3>
+<p>It is now possible to specify metadata in the YAML file itself:</p>
+<div class="highlight"><pre><span class="l-Scalar-Plain">metas</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">outline</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0</span>
+  <span class="l-Scalar-Plain">highlight_style</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">borland</span>
+
+<span class="l-Scalar-Plain">Introduction</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">Why?</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">Why?</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Creating Presentations in PowerPoint/Keynote etc. takes too long</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">No automatic TOC generation</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">No Code Highlighting</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Applications not for free</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Proprietary formats</span>
+</pre></div>
+
+
+<p>You can, for example, disable the automatically generated outline or choose another Pygments highlighting style for your code.
+<a href="http://github.com/arthurk/yml2tex/tree/1.2/README.markdown">Take a look at the README file</a> for a list of all supported values.</p>
+<h3>Auto-Escaping</h3>
+<p>Special characters in LaTeX are another thing I personally can't remember. I always get an error during the compile, have to open up the TeX file and escape the character which caused the error just to find that I forgot to escape another character later on.</p>
+<p>Version 1.2 now fixes this by auto-escaping LaTeX special characters (<strong>&amp;</strong>, <strong>%</strong>, <strong>#</strong>, <strong>_</strong>, <strong>{</strong> and <strong>}</strong>) in section, subsection, frame titles and item text.</p>
+    
+</body>
+</html>

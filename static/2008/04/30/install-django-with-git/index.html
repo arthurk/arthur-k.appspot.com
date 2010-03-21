@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Install Django with Git</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Install Django with Git</h1>
+    <p id="date">
+        Published 30th April 2008
+    </p>
+    <p>Although Brian Rosner did a very good <a class="reference external" href="http://oebfare.com/blog/2008/jan/23/using-git-django-screencast/">Screencast on installing and using
+Git</a> with <a class="reference external" href="http://www.djangoproject.com/">Django</a>, there are sadly no Show Notes available. This makes
+installing Django from Git a quite time-consuming task, if you haven't
+memorized the commands.</p>
+<p>While writing down the commands for further use, I noticed that there's a
+faster way than cloning the official SVN repository by using an unofficial
+Git mirror. Later on, I wrote a small Bash script to automate the Django-
+from-Git installation, which you can download below.</p>
+<div class="section" id="official-svn-repository">
+<h2>Official SVN repository</h2>
+<p>First, clone the repository with:</p>
+<div class="highlight"><pre>git svn clone -s http://code.djangoproject.com/svn/django django
+</pre></div>
+<p>navigate to the <em>django</em> folder and run:</p>
+<div class="highlight"><pre>git gc
+</pre></div>
+<p>to cleanup unnecessary files and optimize the local repository. Finally,
+reset the master branch to point to trunk:</p>
+<div class="highlight"><pre>git reset --hard origin/master
+</pre></div>
+</div>
+<div class="section" id="git-mirror">
+<h2>Git mirror</h2>
+<p>Instead of going through the time-consuming task of cloning the official SVN
+repository, there's an faster and easier way. <a class="reference external" href="http://spinlock.ch/blog/">Matthias Kestenholz</a> was so
+kind to set up a Git mirror for Django, which is updated hourly.</p>
+<p>Just use the <em>git clone</em> command, as with any other Git repository:</p>
+<div class="highlight"><pre>git clone git://spinlock.ch/pub/git/django/django.git django.git
+</pre></div>
+</div>
+<div class="section" id="bash-script">
+<h2>Bash script</h2>
+<p>To save some time on the next &quot;Django from Git&quot; installation, I wrote a
+simple Bash script to automate this task.</p>
+<p>The script will clone the unofficial Git mirror in a folder called
+<em>django.git</em> and create the necessary symbolic links to install Django:</p>
+<ol class="arabic simple">
+<li><em>django</em> folder to the python <em>site-packages</em> directory.</li>
+<li><em>django-admin.py</em> file to a directory on the system path (the script
+uses <em>/usr/bin</em>).</li>
+</ol>
+<p><a class="reference external" href="django-git-install.sh">Download django-git-install</a></p>
+<p>After the download, you need to make the script executable:</p>
+<div class="highlight"><pre>chmod u+x django-git-install.sh
+</pre></div>
+<p>The script expects the installation directory as the first parameter:</p>
+<div class="highlight"><pre>Usage: django-git-install.sh target-directory
+</pre></div>
+<p>For example, to install Django into <em>/usr/lib/django.git</em>, execute:</p>
+<div class="highlight"><pre>sudo ./django-git-install.sh /usr/lib
+</pre></div>
+</div>
+
+    
+</body>
+</html>

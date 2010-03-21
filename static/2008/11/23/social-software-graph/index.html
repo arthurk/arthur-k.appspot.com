@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Social software graph</title>
+    <style type="text/css" media="screen">
+        body{width:570px;margin-left:25px;margin: 25px}
+        img.left{float:left;margin:0 20px 20px 0}
+        img.right{float:right;margin:0 0 20px 20px}
+        .highlight{border-left:3px solid #dedede;padding-left:20px;overflow:auto}
+        .highlight .hll{background-color:#ffc}
+        .highlight .err{border:1px solid red}
+        .highlight .o{color:#666}
+        .highlight .cs{color:#60a0b0;background-color:#fff0f0}
+        .highlight .gd{color:#A00000}
+        .highlight .gr{color:red}
+        .highlight .gh{color:navy;font-weight:700}
+        .highlight .gi{color:#00A000}
+        .highlight .go{color:gray}
+        .highlight .gp{color:#c65d09;font-weight:700}
+        .highlight .gs{font-weight:700}
+        .highlight .gu{color:purple;font-weight:700}
+        .highlight .gt{color:#0040D0}
+        .highlight .kt{color:#902000}
+        .highlight .no{color:#60add5}
+        .highlight .nd{color:#555;font-weight:700}
+        .highlight .ni{color:#d55537;font-weight:700}
+        .highlight .nf{color:#06287e}
+        .highlight .nl{color:#002070;font-weight:700}
+        .highlight .nt{color:#062873;font-weight:700}
+        .highlight .w{color:#bbb}
+        .highlight .sd{color:#4070a0;font-style:italic}
+        .highlight .se{color:#4070a0;font-weight:700}
+        .highlight .si{color:#70a0d0;font-style:italic}
+        .highlight .sx{color:#c65d09}
+        .highlight .sr{color:#235388}
+        .highlight .ss{color:#517918}
+        #date,.highlight .ge{font-style:italic}
+        .highlight .c,.highlight .cm,.highlight .c1{color:#60a0b0;font-style:italic}
+        .highlight .k,.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kr,.highlight .ow{color:#007020;font-weight:700}
+        .highlight .cp,.highlight .kp,.highlight .nb,.highlight .ne,.highlight .bp{color:#007020}
+        .highlight .m,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#40a070}
+        .highlight .s,.highlight .na,.highlight .sb,.highlight .sc,.highlight .s2,.highlight .sh,.highlight .s1{color:#4070a0}
+        .highlight .nc,.highlight .nn{color:#0e84b5;font-weight:700}
+        .highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi{color:#bb60d5}
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Social software graph</h1>
+    <p id="date">
+        Published 23rd November 2008
+    </p>
+    <p>After <a href="http://www.amk.ca/diary/2008/11/graph_of_my_social_software.html">seeing</a> some <a href="http://sayspy.blogspot.com/2008/11/social-software-graph.html">social software graphs</a>, I made one for myself today. I basically  tried to remember every service I had registered to and linked them together. <a href="http://friendfeed.com/">FriendFeed</a> does a good job aggregating most of them.</p>
+<p><img alt="Social software graph" src="http://media.arthurkoziel.com/img/nodebox_graph.png" /></p>
+<p>The graph was done using <a href="http://nodebox.net/">NodeBox</a>. Here's the source code for the graph:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">uniform</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">ximport</span><span class="p">(</span><span class="s">&quot;graph&quot;</span><span class="p">)</span>
+
+<span class="n">size</span><span class="p">(</span><span class="mi">475</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;FriendFeed&#39;</span><span class="p">,</span> <span class="s">&#39;Twitter&#39;</span><span class="p">,</span> <span class="s">&#39;Hacker News&#39;</span><span class="p">,</span> <span class="s">&#39;Last.fm&#39;</span><span class="p">,</span> <span class="s">&#39;Readernaut&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Delicious&#39;</span><span class="p">,</span> <span class="s">&#39;Google Reader&#39;</span><span class="p">,</span> <span class="s">&#39;Django People&#39;</span><span class="p">,</span> <span class="s">&#39;Arthur Koziel’s Blog&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Symfoniac&#39;</span><span class="p">,</span> <span class="s">&#39;Djangoniac&#39;</span><span class="p">,</span> <span class="s">&#39;Ma.gnolia&#39;</span><span class="p">,</span> <span class="s">&#39;Flickr&#39;</span><span class="p">,</span> <span class="s">&#39;Upcoming&#39;</span><span class="p">,</span> <span class="s">&#39;Reddit&#39;</span><span class="p">):</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c"># connect services with FriendFeed</span>
+<span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;Twitter&#39;</span><span class="p">,</span> <span class="s">&#39;Last.fm&#39;</span><span class="p">,</span> <span class="s">&#39;Readernaut&#39;</span><span class="p">,</span> <span class="s">&#39;Delicious&#39;</span><span class="p">,</span> <span class="s">&#39;Google Reader&#39;</span><span class="p">,</span> <span class="s">&#39;Flickr&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Upcoming&#39;</span><span class="p">,</span> <span class="s">&#39;Arthur Koziel’s Blog&#39;</span><span class="p">):</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="s">&quot;FriendFeed&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">uniform</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="n">g</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+    
+</body>
+</html>
