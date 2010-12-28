@@ -1,0 +1,154 @@
+Django GSOC 2010 - App loading
+==============================
+
+Problems
+--------
+
+This are the problems with the current app loading implementation:
+
+1. Two apps with the same module name
+    It is not possible to install apps that have the same module name. 
+    The following code would not work properly as both modules are
+    named "auth":
+    
+    INSTALLED_APPS = (
+        'django.contrib.auth',
+        'foobar.auth',
+    )
+
+2. Empty models.py file
+    There are apps which, for example, just provide templatetags or management
+    commands and don't make use of Django's ORM. Yet, in order to be installed
+    properly these apps have to ship with an empty models.py file.
+
+3. App level configuration options
+    There is currently no way of specifying application specific configuration
+    options. Most apps work around this issue by specifying these options on
+    a project level and prefixing them with the app name e.g.:
+
+    SOUTH_LOGGING_FILE = 'south.log'
+
+3.1 Verbose/Translatable application name
+    There is currently no way to use a more verbose name for an application
+    other than model._meta.app_label (which is the filesystem dir name above
+    the models module). A use-case where more verbose application names would
+    be useful is the django.contrib.admin module.
+
+3.2 Prefix Identifiers
+    It is not possible to change the following prefix identifiers
+    for applications:
+
+        - Admin permissions prefix
+        - DB table creation prefix
+        - Dumpdata/Loaddata fixture prefix
+
+This solution proposed in this document won't make it possible to install
+multiple instances of an app. 
+
+Solution
+--------
+
+(Note: I posted my initial proposal on the mailing list[0].
+This is the reworked version based on the feedback that I got.)
+
+The structure of the INSTALLED_APPS setting will not be changed.
+It will remain a tuple of strings:
+
+    INSTALLED_APPS = (
+            'django.contrib.auth.AuthApp',
+            'django.contrib.contenttypes',
+    )
+
+During start-up, each entry in INSTALLED_APPS setting will be converted
+to an instance of an `Application` class:
+
+- 'django.contrib.auth.AuthApp'
+    A new AuthApp class will be provided in the django.contrib.auth
+    package. This class is a subclass of `Application` and sets
+    initial attributes:
+
+        from django.contrib.auth import models as auth_models
+        from django.core.app import Application
+
+        class AuthApplication(Application):
+            models = auth_models
+            verbose_name = _('Registration')
+            db_prefix = 'auth'
+
+- 'django.contrib.contenttypes'
+    If no subclass of `Application` is provided, an anonymous
+    `Application` class instance    will be initialized with the
+    models attribute set to the models module (models.py).
+    
+The current `AppCache` class (db.models.loading) will be renamed to
+`InstalledApps` and moved to `core.apps`. This change isn't necessary
+but makes sense as an application will not require models anymore.
+
+The `InstalledApps` class will no longer track each module name and
+its models, but instances of the `Application` class. The `Application`
+class will have a `models` attribute on which the model instances will
+be tracked instead.
+
+Allowing apps with the same module name to be installed (problem #1) also
+requires Prefix Identifiers (problem #3.2) to be fixed. For example, if two
+"auth" apps will be installed that happen to have the same models, the ORM
+would attempt to create two tables that are named the same ("auth_user"
+for example).
+
+This not only applies for the prefix, but also all the other cases where 
+`model._meta.app_label` is used to identify apps such as contrib.contenttypes.
+
+Further Thoughts
+----------------
+
+Providing an `Application` class has other benefits. As mentioned above, the
+auth package could provide an `AuthApp` which stores the models in an
+attribute. If a developer wanted to change the models provided by
+django.contrib.auth, he could just subclass the `AuthApp` and put his
+own models there:
+
+    from django.contrib.auth import AuthApp
+    from myauth import models as myauth_models
+
+    class MyAuthApp(AuthApp):
+        models = myauth_models
+
+This could be useful if the user wanted to extend the default User model
+with custom fields (instead of using get_profile()).
+
+Another interesting idea would be to store views and urls in the Application
+class (similar to django.contrib.admin.sites):
+
+    from django.contrib.auth import AuthApp
+    from myauth import models as myauth_models
+
+    class MyAuthApp(AuthApp):
+        models = myauth_models
+        
+        def login(self, request):
+            pass
+
+            def urls(self):
+            from django.conf.urls.defaults import patterns, url
+            urlpatterns = patterns('',
+                    url(r'^$',
+                    wrap(self.index),
+                    name='index'))
+            return urlpatterns
+            urls = property(urls)
+
+This would allow the user to subclass Application classes that are provided
+by Django and easily change views or the urlpatterns.
+
+References
+----------
+
+[0]: http://groups.google.com/group/django-developers/browse_thread/thread/4cca2086dd485879
+
+Other interesting sources:
+
+- Alex Gaynor: Towards Application Objects in Django: http://alexgaynor.net/2010/mar/28/towards-application-objects-django/
+- Ticket #3591: http://code.djangoproject.com/ticket/3591
+- InstalledAppsRevision Wiki page: http://code.djangoproject.com/wiki/InstalledAppsRevision
+- There is a discussion about Application objects in the latest DjangoDose podcast: http://djangodose.com/podcasts/community-catchup/episode/14/
+
